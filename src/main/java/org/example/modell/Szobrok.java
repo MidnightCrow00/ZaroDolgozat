@@ -4,7 +4,7 @@ import java.text.Collator;
 import java.util.Comparator;
 import java.util.UUID;
 
-public class Szobrok extends Gyujtemeny implements Comparable<Szobrok>{
+public class Szobrok extends Gyujtemeny implements Comparator<Szobrok>{
     private String anyag;
     private int szazad;
 
@@ -25,18 +25,18 @@ public class Szobrok extends Gyujtemeny implements Comparable<Szobrok>{
             this.szazad = 20;
         }
     }
-
-    @Override
-    public int compareTo(Szobrok masik) {
-        Collator coll = Collator.getInstance();
-        return coll.compare(this.getAlkoto(), masik.getAlkoto());
-    }
-    public static SzazadComparator rendezSzazad(){
+     public static SzazadComparator rendezSzazad(){
         return new SzazadComparator();
     }
 
     public static AnyagComparator rendezAnyag(){
         return new AnyagComparator();
+    }
+
+    @Override
+    public int compare(Szobrok o1, Szobrok masik) {
+        Collator coll = Collator.getInstance();
+        return coll.compare(this.getAlkoto(), masik.getAlkoto());
     }
 
     private static class AnyagComparator implements Comparator<Szobrok> {

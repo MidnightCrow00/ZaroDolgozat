@@ -4,9 +4,7 @@ import org.example.modell.GuiConfigModell;
 import org.example.modell.Gyujtemeny;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
+import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,13 +86,47 @@ public class GuiFelulet {
         mnuKilepes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String msg="Biztos bezárod?";
-                int op = JOptionPane.OK_CANCEL_OPTION;
-                String cim="Kilépés";
-                int gomb= JOptionPane.YES_OPTION;
-                System.exit(0);
+                String msg = "Biztos bezárod?";
+                String cim = "Kilépés";
+                int jp = JOptionPane.showConfirmDialog(null, msg, cim, JOptionPane.YES_NO_OPTION);
+                if (jp == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
             }
         });
+
+        ujSzoborButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               comboBox1.addItem("Ismeretlen:Nike/márvány -2.sz");
+            }
+        });
+
+        comboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String elem = (String) comboBox1.getSelectedItem();
+                DefaultListModel<String> lm = (DefaultListModel<String>) list1.getModel();
+                lm.addElement(elem);
+                if (mozgatCheckBox.isSelected()){
+                    comboBox1.removeItem(comboBox1.getSelectedItem());
+                }
+            }
+        });
+
+        list1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(e.getClickCount() == 2){ //dupla klikk
+                    /* törlés list-ből */
+                    String elem = (String) list1.getSelectedValue();
+                    DefaultListModel dlm = (DefaultListModel) list1.getModel();
+                    dlm.removeElement(elem);
+                }
+            }
+        });
+
     }
 
     private void ini() {
@@ -111,7 +143,7 @@ public class GuiFelulet {
         //Menü
         mnuBeolvas = new JMenuItem("Beolvasás");
         mnuMentes = new JMenuItem("Mentés");
-        mnuMentes = new JMenuItem("Kilépés");
+        mnuKilepes = new JMenuItem("Kilépés");
         JMenu mnu = new JMenu("Menük");
         mnu.add(mnuBeolvas);
         mnu.add(new JSeparator());
